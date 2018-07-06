@@ -1,0 +1,40 @@
+1. Difference between angualrjs vs angular
+2. difference between es5 vs es6
+3. difference between react vs angualr
+4. difference between promise vs observable
+5. what is observable?
+6. New features in angualr 2,4,5 and 6
+7. difference between AOT vs JIT
+8. How to include third party library in component of angular?
+9. What are the directivies in angular?
+10. How to club multiple http hits with observables?
+11. How to handle multiple observable response, depend on eachother?
+12. what is lazyloading in angualr?
+13. can we implement the lazyloading with module?
+14. can we write services in angular without @injectable decorate.
+15. what is difference between services and compents?
+16. what is difference between factory vs services
+17. Angular life cycle hooks
+18. Angularjs life cycle
+19. React life cycle
+20. What is use of angular-cli.json?
+21. current project understanding.
+22. How to implement broadcasting in angularjs?
+23. How to implement broadcasting in angualr?
+24. What is use of 'this'?
+25. How to compare the two objects?
+26. How to bind events in angular, React?
+27. difference between 'For Of' and 'For In'
+28. How to pass the data parent to child - child to parent
+29. @input, @output what are these?
+30. can we create Class in javascript?
+31. What is closures in javascript?
+32. What is deffered in javascript?
+33. Ascyn and sycn in javascript?
+34. What's the difference between a tilde (~) and a caret (^) in a npm package.json file?
+
+
+
+
+
+  

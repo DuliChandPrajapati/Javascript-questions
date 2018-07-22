@@ -1,0 +1,365 @@
+How to call base class constructor from child class in TypeScript?
+//////////////////
+Does TypeScript supports function overloading as JavaScript doesn’t support function overloading?
+- Yes, TypeScript does support function overloading. But the implementation is odd. When you overload in TypeScript you only have one implementation with multiple signatures.
+
+class Person {
+    name: string;
+    Id: number;
+	
+    add(Id: number);
+    add(name:string);
+	
+    add(value: any) {
+    if (value && typeof value == "number") {
+        //write here logic
+    }
+    if (value && typeof value == "string") {
+        //write here logic
+    }
+   }
+}
+(or)
+add(a:string|number) {
+   //write here logic
+}
+
+///////////////////
+
+Explain for..of vs for..in with a help of example
+-for..of and for..in statements iterate over lists; the values iterated on are different though, for..in returns a list of keys on the object being iterated, whereas for..of returns a list of values of the numeric properties of the object being iterated.
+
+let list = [1, 2, 3];
+
+for (let i in list) {
+   console.log(i); // "0", "1", "2",
+}
+
+for (let i of list) {
+   console.log(i); // "1", "2", "3"
+}
+
+
+/////////////
+What is generics in Angular/ Type Script ? Explain with a example .
+-we need a way of capturing the type of the argument in such a way that we can also use it to denote what is being returned. Here, we will use a type variable, a special kind of variable that works on types rather than values.
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+Uses - 
+1. let output = identity<string>("myString");  // type of output will be 'string'
+2. let output = identity<number>(10);  // type of output will be 'Number'
+
+
+State true/false – below question 
+TypeScript is a structural type system, type parameters only affect the resulting type when consumed as part of the type of a member.
+-interface NotEmpty<T> {
+		data: T;
+	}
+	let x: NotEmpty<number>;
+	let y: NotEmpty<string>;
+
+	x = y;  // error, x and y are not compatible
+	
+//////////////////////
+State true/false – below question 
+-they have both a static and an instance type. When comparing two objects of a class type, only members of the instance are compared. Static members and constructors do not affect compatibility.
+class Animal {
+    feet: number;
+    constructor(name: string, numFeet: number) { }
+}
+
+class Size {
+    feet: number;
+    constructor(numFeet: number) { }
+}
+
+let a: Animal;
+let s: Size;
+
+a = s;  //OK
+s = a;  //OK	
+
+//////////////////////
+
+What is Angular hooks life cycle? explain it. 
+Angular 2 Lifecycle Events Log:-
+1.onChanges
+2.onInit
+3.doCheck
+4.afterContentInit
+5.afterContentChecked
+6.afterViewInit
+7.afterViewChecked
+8.doCheck
+9.afterContentChecked
+10. afterViewChecked
+11. onChanges
+12. doCheck
+13. afterContentChecked
+14. afterViewChecked
+15. onDestroy
+
+With Component (interface wise) - 
+1.ngOnChanges - called when an input binding value changes.
+2.ngOnInit - after the first ngOnChanges.
+3.ngDoCheck - after every run of change detection.
+4.ngAfterContentInit - after component content initialized.
+5.ngAfterContentChecked - after every check of component content.
+6.ngAfterViewInit - after component's view(s) are initialized.
+7.ngAfterViewChecked - after every check of a component's view(s).
+8.ngOnDestroy - just before the component is destroyed.
+////////////////////////
+
+
+Write a Angular “Service” with GET, POST,PUT,DELETE methods? and mention all require libraries.
+- 
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+
+import { User } from '../shared/models/user.model';
+
+@Injectable()
+export class UserService {
+
+  constructor(private http: HttpClient) { }
+
+  register(user: User): Observable<User> {
+    return this.http.post<User>('/api/user', user);
+  }
+
+  login(credentials): Observable<any> {
+    return this.http.post<any>('/api/login', credentials);
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users');
+  }
+
+  countUsers(): Observable<number> {
+    return this.http.get<number>('/api/users/count');
+  }
+
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/user', user);
+  }
+
+  getUser(user: User): Observable<User> {
+    return this.http.get<User>(`/api/user/${user._id}`);
+  }
+
+  editUser(user: User): Observable<string> {
+    return this.http.put(`/api/user/${user._id}`, user, { responseType: 'text' });
+  }
+
+  deleteUser(user: User): Observable<string> {
+    return this.http.delete(`/api/user/${user._id}`, { responseType: 'text' });
+  }
+
+}
+/////////////
+What is @Inputs, @Output, eventEmmitter, @ViewChild in Angular 2?
+
+@Input decorator to accept an input binding, we can do the same and listen in the parent for when a value changes inside our child component.we can import Output and decorate a new change property inside our Component. we need to import and bind a new instance of the EventEmitter.
+
+@Inputs - @Input allows you to pass data into your controller and templates through html and defining custom properties. This allows you to easily reuse components and have them display different values for each instance of the renderer.
+
+@Output - Components push out events using a combination of an @Output and an EventEmitter. This allows a clean separation between reusable Components and application logic.
+
+eventEmmitter - 
+@Component({...})
+export class CounterComponent {
+
+  @Input()
+  count: number = 0;
+
+  @Output()
+  change: EventEmitter<number> = new EventEmitter<number>();
+
+  increment() {
+    this.count++;
+    this.change.emit(this.count);
+  }
+
+  decrement() {
+    this.count--;
+    this.change.emit(this.count);
+  }
+
+}
+
+@view Child - 
+import {Component, ViewChild} from '@angular/core';
+import {ChildComponent} from './child.component';
+
+@Component({
+    selector: 'my-app',
+    template: `
+    <div>
+        <h1>Parent Component</h1>
+        <button (click)="showHideText()">Show/Hide Child Component Text</button>
+        <child-component></child-component>
+    </div>
+    `,
+    directives: [ChildComponent]
+})
+
+export class AppComponent {
+    @ViewChild(ChildComponent) private childComponent:ChildComponent;
+
+    showHideText() {
+        this.childComponent.toggleVisibility('Parent Component');
+    }
+}
+//////////////
+What are the immutable variables and reference variable?
+
+1. var, let, const  (immutable)
+2. object, array, function (reference)
+//////////////////////
+
+How many directives in angular?
+1. Attribute Directive - NgStyle, NgClass
+2. Structural Directive - NgIf, NgFor, NgSwtich, 
+/////////////////
+
+
+Cold Observables to Hot Observables
+- Cold Observables
+const obsv = new Observable(observer => {
+
+  setTimeout(() => {
+    observer.next(1);
+  }, 1000);
+  
+  setTimeout(() => {
+    observer.next(2);
+  }, 2000);
+  
+  setTimeout(() => {
+    observer.next(3);
+  }, 3000);
+
+  setTimeout(() => {
+    observer.next(4);
+  }, 4000);
+  });
+  
+  
+  // Subscription A
+setTimeout(() => {
+  obsv.subscribe(value => console.log(value));
+}, 0);
+
+// Subscription B
+setTimeout(() => {
+  obsv.subscribe(value => console.log(`>>>> ${value}`));
+}, 2500);
+
+out put- 
+"A     B"
+1
+2
+3
+"      1"
+4
+"      2"
+"      3"
+"      4"
+
+- Hot Observables
+
+const obsv = new Observable(observer => {
+	  setTimeout(() => {
+    observer.next(1);
+  }, 1000);
+  
+  setTimeout(() => {
+    observer.next(2);
+  }, 2000);
+  
+  setTimeout(() => {
+    observer.next(3);
+  }, 3000);
+
+  setTimeout(() => {
+    observer.next(4);
+  }, 4000);
+  }).publish();
+
+hotObsv.connect();
+// Subscription A
+setTimeout(() => {
+  obsv.subscribe(value => console.log(value));
+}, 0);
+
+// Subscription B
+setTimeout(() => {
+  obsv.subscribe(value => console.log(`      ${value}`));
+}, 2500);
+
+out put- 
+"A     B"
+1
+2
+3
+"      3"
+4
+"      4"
+/////////////////////////
+
+15.	What is JiT Compiler and AoT compiler?
+
+The JiT (Just-in-time) compiler compiles the application dynamically, as the application loads. To do this, we will need to rely on 3 providers that tell the JiT compiler how to translate the template texts for a particular language:
+-TRANSLATIONS is a string containing the content of the translation file.
+-TRANSLATIONS_FORMAT is the format of the file.
+-LOCALE_ID is the locale of the target language.
+
+To Internationalize with the AoT (Ahead of time) compiler, you will have to:
+-pre-build a seperate application package for each language
+-determine which language the user needs
+-serve the appropriate application package
+
+/////////////////////
+Explain Call, Bind, Apply, Prototype? with example.
+
+//////////////////
+what is output below code In a browser - 
+function Foo() {
+  return this;
+}
+Foo() === window; // true 
+////////////////////
+
+What is output below Code -
+
+var age = {
+  prop: 25,
+  f: function() {
+    return this.prop;
+  }
+};
+console.log(age.f()); //25
+
+
+What is the result of the following statement: typeof “x”;
+A. “character”
+B. “[object String]”
+C. Throws error “ReferenceError: x is not defined”
+D. “string”
+E. “undefined”
+Ans: D
+Primitive types are passed by :
+A. Value
+B. Pointer
+C. Reference
+Ans: A
+
+
+  
+  
+
+
